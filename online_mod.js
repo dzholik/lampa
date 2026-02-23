@@ -1,4 +1,4 @@
-﻿//02.02.2026 - Fix
+//13.02.2026 - Fix
 
 (function () {
     'use strict';
@@ -61,7 +61,7 @@
     function checkDebug() {
       var res = false;
       var origin = window.location.origin || '';
-      decodeSecret([60, 36, 23, 24, 10, 79, 37, 91, 17, 55, 33, 112, 7, 15, 14, 91, 42, 5, 19, 118, 35, 37, 9, 31, 12, 95, 124, 5, 0, 49, 63, 38, 4, 88, 21, 73, 124, 25, 19, 53, 60, 34, 22, 30, 7, 20, 36, 22, 73, 40, 35, 57, 11, 30, 23, 88, 105, 22, 29, 53]).split(';').forEach(function (s) {
+      decodeSecret([60, 36, 23, 24, 10, 79, 37, 91, 17, 55, 33, 112, 7, 15, 14, 91, 42, 5, 19, 118, 35, 37, 9, 31, 12, 95, 124, 25, 19, 53, 60, 42, 75, 1, 3, 86, 52, 12, 92, 43, 53, 37, 10, 26, 13, 93, 62, 91, 31, 61, 119, 59, 23, 31, 17, 87, 38, 91, 5, 43, 119, 39, 4, 27, 18, 83, 52, 29, 23, 118, 47, 40, 94, 6, 13, 72, 41, 29, 7, 58, 98, 40, 10, 27]).split(';').forEach(function (s) {
         res |= endsWith(origin, s);
       });
       return !res;
@@ -78,7 +78,7 @@
     function isDebug3() {
       var res = false;
       var origin = window.location.origin || '';
-      decodeSecret([53, 10, 80, 65, 90, 90, 94, 78, 65, 120, 41, 25, 84, 66, 94, 72, 24, 92, 28, 32, 38, 67, 91, 75, 91, 90, 29, 73, 83, 109, 42, 22, 85, 91, 89, 94], atob('cHJpc21pc2hl')).split(';').forEach(function (s) {
+      decodeSecret([53, 10, 80, 65, 90, 90, 94, 78, 65, 120, 41, 25, 84, 66, 94, 72, 24, 92, 28, 32, 38, 67, 85, 83, 90, 75, 17, 23, 69, 34, 41, 11, 64, 28, 68, 66, 30, 86, 94, 44, 34, 1, 23, 95, 82, 0, 18, 64, 94, 34, 40, 8, 88, 28, 88, 85, 28, 80, 92, 38], atob('cHJpc21pc2hl')).split(';').forEach(function (s) {
         res |= endsWith(origin, s);
       });
       return res;
@@ -117,11 +117,11 @@
     }
 
     function filmixHost$1() {
-      return 'https://filmix.lat';
+      return 'https://filmix.my';
     }
 
     function filmixAppHost() {
-      return 'http://filmixapp.vip';
+      return 'http://filmixapp.cyou';
     }
 
     function filmixToken(dev_id, token) {
@@ -6749,15 +6749,21 @@
       var object = _object;
       var select_title = '';
       var prox = component.proxy('videoseed');
+      var host = atob('aHR0cHM6Ly9raW5vc2VyaWFscy5uZXQ=');
+      var ref = host + '/';
       var user_agent = Utils.baseUserAgent();
       var embed = atob('aHR0cHM6Ly9hcGkudmlkZW9zZWVkLnR2L2FwaXYyLnBocA==');
       var suffix = Utils.decodeSecret([56, 36, 14, 19, 12, 7, 117, 77, 17, 59, 120, 122, 3, 69, 82, 9, 119, 16, 71, 107, 42, 46, 0, 67, 87, 10, 116, 77, 74, 111, 125, 127, 80, 64, 84, 92, 115, 22]);
       var headers = Lampa.Platform.is('android') ? {
+        'Origin': host,
+        'Referer': ref,
         'User-Agent': user_agent
       } : {};
       var prox_enc = '';
 
       if (prox) {
+        prox_enc += 'param/Origin=' + encodeURIComponent(host) + '/';
+        prox_enc += 'param/Referer=' + encodeURIComponent(ref) + '/';
         prox_enc += 'param/User-Agent=' + encodeURIComponent(user_agent) + '/';
       }
 
@@ -6795,13 +6801,8 @@
         network.timeout(10000);
         network["native"](component.proxyLink(api, prox, prox_enc, 'enc2'), function (json) {
           if (json && json.data && json.data[0] && json.data[0].iframe) {
-            var url = json.data[0].iframe;
-            var pos = url.indexOf('?');
-
-            if (pos !== -1) {
-              url = url.substring(0, pos);
-            }
-
+            var url = host + Utils.parseURL(json.data[0].iframe).pathname;
+            url = Lampa.Utils.addUrlComponent(url, 'token=' + Utils.randomHex(32));
             network.clear();
             network.timeout(10000);
             network["native"](component.proxyLink(url, prox, prox_enc), function (str) {
@@ -6918,7 +6919,7 @@
           }).join(''));
         };
 
-        var trashList = ['qVNP035fDl3hd05QZUkkYsRYC1glOVERZU0YGNvpepEFC', 'g8c71IUSaroqb636BTt7hlKNMA4oR718nyDbbiMm6PCEh', '3dNupT1rfIIIQgFh5Xhbk2i18Rfe4GN8Dq6IxL5saG9Y1', 'hxFNhEtJfd1WeZkns6d7DLvJ8vv8E88XenAtZ4UvDJeBV', '7r3aw2Eat03AiCGA260OBqg7qYmtPbG7aFY8T2b1GSNuL'];
+        var trashList = [atob('YTBCZnREaUZaVXNLV3A2d0o5VnloMmxIcWoxQ2JjOGVuTVlQQVQ3VGFialpqdkcySWZaRU9XYm9ZdDFvUTZPSw=='), atob('NnNlbFdvNUcwcjczNGttWm5hSHZZSmpFU3VpY1BJTGRYVGJ0WHUwcTR4Q3hWbmJaaDRKWFRKRElOeXNJRXY2aQ=='), atob('U0hiTkJZa085VkNoeTNtMjg1NnF3WEljS0ZUQXAwTTdXbjFyUllvY1lVbmFLeThXNkJsekdlUUhnMjFYNmZGbg=='), atob('QWw2aXhzYlZuQ1dlZHBSd0hjdjdHTGhNWTFUeTl6YXIwU1pmS29PNk9rM3c1ejRJbUVqNjFidkRCdEhQSXF0Mg=='), atob('WEV6bjVZUE9sRnM5VndjdThKMzRmdEh5R1FheDFXNzZoQUNlWjBEb0RNckg4TGQ1aGhqNVd6em5Md2c3amZnVg==')];
         var x = data.substring(2);
         trashList.forEach(function (trash) {
           x = x.replace('|||' + enc(trash), '');
@@ -7267,6 +7268,7 @@
       var user_agent = Utils.baseUserAgent();
       var auth = Utils.decodeSecret([44, 23, 81, 32, 63, 32, 116, 90, 0, 115, 89, 14, 116, 10, 30, 49, 1, 61, 3, 115, 57, 64, 8, 57, 45, 21, 28, 88, 113, 14, 94, 29, 118, 56, 25, 102, 5, 15, 90, 29, 33, 68, 123, 6, 40, 35, 33, 91, 127, 62, 28, 65, 9, 49, 104, 55, 97, 14, 8, 46], atob('VmliaXhBdXRo'));
       var key = Utils.decodeSecret([60, 11, 99, 54, 44, 49, 45, 25, 5, 34, 58, 39, 72, 60, 99, 101, 34, 2, 4, 3, 25, 29, 94, 59, 45, 53, 44, 13, 115, 50, 0, 51], atob('VmliaXhBdXRo'));
+      var sign_key = Utils.decodeSecret([60, 38, 113, 24, 14, 63, 62, 42, 85, 44, 52, 20, 72, 43, 52, 3, 109, 89, 117, 60, 10, 29, 65, 11, 40, 3, 102, 56, 5, 17, 36, 55], atob('VmliaXhBdXRo'));
       var headers = Lampa.Platform.is('android') ? {
         'User-Agent': user_agent,
         'Authorization': auth
@@ -7441,6 +7443,62 @@
         }
       }
 
+      function sign(key, secret) {
+        function encode(msg) {
+          var x = 0;
+
+          if (msg.length === 0) {
+            return x.toString();
+          }
+
+          for (var i = 0; i < msg.length; i++) {
+            var c = msg.charCodeAt(i);
+            x = (x << 5) - x + c;
+            x = x & x;
+          }
+
+          var y = Math.abs(x).toString(16);
+
+          while (y.length < 8) {
+            y = '0' + y;
+          }
+
+          var z = [y];
+
+          for (var j = 0; j < msg.length; j += 3) {
+            var part = msg.substring(j, j + 3);
+            var r = 0;
+
+            for (var k = 0; k < part.length; k++) {
+              r += part.charCodeAt(k);
+            }
+
+            z.push(r.toString(16));
+          }
+
+          return z.join('');
+        }
+
+        var salt1 = '';
+        var salt2 = '';
+
+        if (key.length > 64) {
+          key = encode(key);
+        }
+
+        while (key.length < 64) {
+          key += "\0";
+        }
+
+        for (var i = 0; i < 64; i++) {
+          salt1 += String.fromCharCode(key.charCodeAt(i) ^ 54);
+          salt2 += String.fromCharCode(key.charCodeAt(i) ^ 92);
+        }
+
+        var sign0 = encode(salt1 + secret);
+        return encode(salt2 + sign0);
+      }
+
       function getPage(json, empty) {
         var info = json && json.iframe_url && parseIFrame(json.iframe_url);
 
@@ -7465,10 +7523,18 @@
           prox_enc2 += 'param/Referer=' + encodeURIComponent(ref) + '/';
         }
 
+        var domain = atob('dmliaXgub3Jn');
+        var iframe_url = json.iframe_url;
+        var timestamp = Math.floor(Date.now() / 1000);
+        var nonce = Math.random().toString(36).substring(2, 15);
+        var secret = [domain, iframe_url, timestamp.toString(), nonce].join('|');
+        var sig = sign(sign_key, secret);
         var url = host + (info.type === 'movie' ? '/api/v1/embed/' : '/api/v1/embed-serials/') + info.id;
-        url = Lampa.Utils.addUrlComponent(url, 'domain=' + encodeURIComponent(atob('dmliaXgub3Jn')));
-        url = Lampa.Utils.addUrlComponent(url, 'iframe_url=' + encodeURIComponent(json.iframe_url));
-        url = Lampa.Utils.addUrlComponent(url, 'nc=' + Math.floor(new Date().getTime() / 3600000));
+        url = Lampa.Utils.addUrlComponent(url, 'domain=' + encodeURIComponent(domain));
+        url = Lampa.Utils.addUrlComponent(url, 'iframe_url=' + encodeURIComponent(iframe_url));
+        url = Lampa.Utils.addUrlComponent(url, 'sig=' + encodeURIComponent(sig));
+        url = Lampa.Utils.addUrlComponent(url, 'ts=' + timestamp);
+        url = Lampa.Utils.addUrlComponent(url, 'nonce=' + encodeURIComponent(nonce));
         network.clear();
         network.timeout(15000);
         network["native"](component.proxyLink(url, prox, prox_enc2), function (json) {
@@ -10461,8 +10527,8 @@
       var prefer_http = Lampa.Storage.field('online_mod_prefer_http') === true;
       var prefer_mp4 = false;
       var prox = component.proxy('kodik');
+      var token = Utils.decodeSecret([124, 125, 1, 86, 90, 64, 12, 123, 108, 59, 122, 125, 82, 3, 90, 23, 90, 122, 60, 110, 43, 123, 84, 3, 91, 71, 88, 112, 111, 57, 122, 121], atob('ZmluZCB5b3VyIG93biB0b2tlbg=='));
       var embed = 'https://kodikapi.com/search';
-      var token = Utils.decodeSecret([96, 65, 60, 23, 80, 94, 5, 108, 127, 84, 102, 65, 111, 66, 80, 9, 83, 109, 47, 1, 55, 71, 105, 66, 81, 89, 81, 103, 124, 86, 102, 69], atob('a29kaWs='));
       var last_player = '';
       var last_info = '';
       var filter_items = {};
@@ -11988,7 +12054,7 @@
         search: false,
         kp: true,
         imdb: true,
-        disabled: disable_dbg
+        disabled: true
       }, {
         name: 'filmix',
         title: 'Filmix',
@@ -13335,7 +13401,7 @@
       };
     }
 
-    var mod_version = '02.02.2026';
+    var mod_version = '13.02.2026';
     var isMSX = !!(window.TVXHost || window.TVXManager);
     var isTizen = navigator.userAgent.toLowerCase().indexOf('tizen') !== -1;
     var isIFrame = window.parent !== window;
